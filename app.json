@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "first-mobile-app",
-    "slug": "first-mobile-app",
+    "name": "site-manager-app",
+    "slug": "site-manager-app",
     "platforms": [
       "ios",
       "android",
@@ -9,7 +9,7 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/icon1024.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -22,7 +22,9 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.bam.site-manager-app",
+      "buildNumber": "1.0.0"
     }
   }
 }
