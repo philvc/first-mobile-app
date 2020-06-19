@@ -22,22 +22,29 @@ export default function DatePicker() {
         setDate(currentDate);
     }
 
+    function findDagRapport() {
+        console.log('findDagRapport')
+    }
+
     console.log('show', show)
     console.log('currentDate', currentDate)
 
     return (
         <View>
-            <Button title="select dag rapport by date" onPress={showTimePicker} />
+            <Button title="select dag rapport" onPress={showTimePicker} />
             {show && (
-                <DateTimePicker
-                    mode={mode}
-                    testID="dateTimePicker"
-                    value={date}
-                    mode={mode}
-                    is24Hour={true}
-                    display="default"
-                    onChange={selectDate}
-                />
+                <View>
+                    <DateTimePicker
+                        mode={mode}
+                        testID="dateTimePicker"
+                        value={date}
+                        mode={mode}
+                        is24Hour={true}
+                        display="default"
+                        onChange={selectDate}
+                    />
+                    <Button title="Find" onPress={findDagRapport} />
+                </View>
             )}
         </View>
     )
