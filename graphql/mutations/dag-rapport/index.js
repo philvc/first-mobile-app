@@ -9,13 +9,3 @@ export const CREATE_DAG_RAPPORT = gql`
         }
     }
 `
-
-export const GET_DAG_RAPPORT_BY_DATE = gql`
-    query getDagRapportByDate($date: Date){
-        getDagRapportByDate(input: {date: $date}){
-            id
-            siteId
-            input
-        }
-    }
-`

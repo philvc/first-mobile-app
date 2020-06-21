@@ -27,8 +27,7 @@ export default function DatePicker() {
     }
 
     console.log('show', show)
-    console.log('currentDate', currentDate)
-
+    console.log('date', date)
     return (
         <View>
             <Button title="select dag rapport" onPress={showTimePicker} />
