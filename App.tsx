@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { StyleSheet, Button, Text } from 'react-native';
 
 // modules
 import { NavigationContainer } from '@react-navigation/native';
@@ -9,8 +9,8 @@ import { WebSocketLink } from '@apollo/link-ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 
 // component
-import DagRapport from './components/dag-rapport-menu/dag-rapport';
-import ListDagRapport from './components/dag-rapport-menu/list-dag-rapport';
+import DagRapportMenu from './components/dag-rapport-menu'
+
 // Graphql default state
 const cache = new InMemoryCache();
 
@@ -52,9 +52,21 @@ export default function App() {
   return (
     <ApolloProvider client={client}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="ListDagRapport">
-          <Stack.Screen name="DagRapport" component={DagRapport} />
-          <Stack.Screen name="ListDagRapport" component={ListDagRapport} />
+        <Stack.Navigator
+          initialRouteName="DagRapportMenu"
+          screenOptions={({ navigation, route }) => ({
+            headerTitle: () => <Text>Find rapport</Text>,
+            headerRight: () => (
+              <Button
+                onPress={() => navigation.navigate('DagRapportMenu')}
+                title="Menu"
+                color="#000"
+              />
+            ),
+
+          })}
+        >
+          <Stack.Screen name="DagRapportMenu" component={DagRapportMenu} />
         </Stack.Navigator>
       </NavigationContainer>
     </ApolloProvider>

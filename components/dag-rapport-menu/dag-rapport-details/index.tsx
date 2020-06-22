@@ -11,7 +11,7 @@ import { actions, reducer } from './reducer'
 import { UPDATE_DAG_RAPPORT } from '../../../graphql/mutations/dag-rapport';
 import { GET_DAG_RAPPORT_BY_DATE } from '../../../graphql/queries/dag-rapport';
 
-export default function DagRapport({ navigation, route }) {
+export default function DagRapportDetails({ navigation, route }: any) {
     const { item } = route.params
     const [state, dispatch] = React.useReducer(reducer, item)
 
@@ -35,7 +35,7 @@ export default function DagRapport({ navigation, route }) {
     })
 
     // handlers
-    function handleChange(inputData, actionType) {
+    function handleChange(inputData: any, actionType: any) {
         updateDagRapport({
             variables: {
                 id: state.id,
@@ -56,14 +56,12 @@ export default function DagRapport({ navigation, route }) {
             <Text>FieldA</Text>
             <TextInput
                 style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-                name={actions.FIELDA_CHANGED}
                 onChangeText={text => handleChange(text, actions.FIELDA_CHANGED)}
                 value={state[actions.FIELDA_CHANGED]}
                 placeholder="Field A"
             />
             <Text>FieldB</Text>
             <TextInput
-                name={actions.FIELDB_CHANGED}
                 style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
                 onChangeText={text => handleChange(text, actions.FIELDB_CHANGED)}
                 value={state[actions.FIELDB_CHANGED]}
@@ -71,7 +69,6 @@ export default function DagRapport({ navigation, route }) {
             />
             <Text>FieldC</Text>
             <TextInput
-                name={actions.FIELDC_CHANGED}
                 style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
                 onChangeText={text => handleChange(text, actions.FIELDC_CHANGED)}
                 value={state[actions.FIELDC_CHANGED]}
@@ -79,7 +76,6 @@ export default function DagRapport({ navigation, route }) {
             />
             <Text>FieldD</Text>
             <TextInput
-                name={actions.FIELDD_CHANGED}
                 style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
                 onChangeText={text => handleChange(text, actions.FIELDD_CHANGED)}
                 value={state[actions.FIELDD_CHANGED]}

@@ -6,7 +6,7 @@ import { View, Button } from 'react-native';
 // graphql
 import { CREATE_DAG_RAPPORT } from '../../../../../graphql/mutations/dag-rapport'
 
-export default function CreateDagRapport({ navigation }) {
+export default function CreateDagRapport({ navigation }: any) {
 
     // mutations
     const [createDagRapport] = useMutation(CREATE_DAG_RAPPORT, {

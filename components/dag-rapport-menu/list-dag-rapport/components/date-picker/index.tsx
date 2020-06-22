@@ -11,7 +11,7 @@ import Constants from 'expo-constants';
 // graphql
 import { GET_DAG_RAPPORT_BY_DATE } from '../../../../../graphql/queries/dag-rapport'
 
-export default function DatePicker({ navigation }) {
+export default function DatePicker({ navigation }: any) {
 
     // state
     const [show, setShow] = React.useState(false)
@@ -40,7 +40,7 @@ export default function DatePicker({ navigation }) {
         setShow(prevValue => !prevValue)
     }
 
-    function selectDate(event, selectDate) {
+    function selectDate(event: any, selectDate: any) {
 
         setDate(selectDate)
         const arrayDate = selectDate.toString().split(' ')
@@ -58,10 +58,10 @@ export default function DatePicker({ navigation }) {
 
     const onSelect = React.useCallback((item) => {
         navigation.navigate('DagRapport', { item })
-    })
+    }, [])
 
     // render functions
-    function Item({ date, onSelect }) {
+    function Item({ date, onSelect }: any) {
         return (
             <View style={styles.item}>
                 <TouchableOpacity onPress={onSelect}>
@@ -78,10 +78,9 @@ export default function DatePicker({ navigation }) {
             {show && (
                 <View>
                     <DateTimePicker
-                        mode={mode}
                         testID="dateTimePicker"
                         value={date}
-                        mode={mode}
+                        mode={"date"}
                         is24Hour={true}
                         display="default"
                         onChange={selectDate}

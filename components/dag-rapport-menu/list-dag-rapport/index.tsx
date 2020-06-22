@@ -7,7 +7,7 @@ import DatePicker from './components/date-picker'
 import CreateDagRapport from './components/create-dag-rapport';
 import VandaagDagRapport from './components/vandaag-dag-rapport';
 
-export default function ListDagRapport({ navigation }) {
+export default function ListDagRapport({ navigation }: any) {
 
 
     return (
