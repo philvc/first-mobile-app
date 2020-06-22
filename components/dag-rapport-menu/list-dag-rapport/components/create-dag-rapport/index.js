@@ -6,13 +6,12 @@ import { View, Button } from 'react-native';
 // graphql
 import { CREATE_DAG_RAPPORT } from '../../../../../graphql/mutations/dag-rapport'
 
-export default function CreateDagRapport() {
+export default function CreateDagRapport({ navigation }) {
 
     // mutations
     const [createDagRapport] = useMutation(CREATE_DAG_RAPPORT, {
         onCompleted({ createDagRapport }) {
-            console.log('result mutation', createDagRapport)
-            navigation.navigate('DagRapport')
+            navigation.navigate('DagRapport', { item: createDagRapport })
         }
     })
 
@@ -20,8 +19,10 @@ export default function CreateDagRapport() {
     function handleClick() {
         createDagRapport({
             variables: {
-                siteId: '0',
-                input: 'another dag rapport'
+                fieldA: '',
+                fieldB: '',
+                fieldC: '',
+                fieldD: '',
             }
         })
     }

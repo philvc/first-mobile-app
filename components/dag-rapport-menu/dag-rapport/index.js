@@ -1,24 +1,89 @@
-import * as React from 'react';
 
 // modules
+import * as React from 'react';
 import { View, TextInput, Text, Button } from 'react-native';
+import { useMutation, useApolloClient } from '@apollo/client';
 
-export default function DagRapport() {
+// reducer
+import { actions, reducer } from './reducer'
 
-    const [value, onChangeText] = React.useState('')
+// graphql
+import { UPDATE_DAG_RAPPORT } from '../../../graphql/mutations/dag-rapport';
+import { GET_DAG_RAPPORT_BY_DATE } from '../../../graphql/queries/dag-rapport';
+
+export default function DagRapport({ navigation, route }) {
+    const { item } = route.params
+    const [state, dispatch] = React.useReducer(reducer, item)
+
+    // client
+    const client = useApolloClient()
+
+    // mutations
+    const [updateDagRapport] = useMutation(UPDATE_DAG_RAPPORT, {
+        onCompleted({ updateDagRapport }) {
+
+            client.writeQuery({
+                query: GET_DAG_RAPPORT_BY_DATE,
+                variables: {
+                    date: state.date
+                },
+                data: {
+                    dagRapportByDate: updateDagRapport
+                }
+            })
+        }
+    })
+
+    // handlers
+    function handleChange(inputData, actionType) {
+        updateDagRapport({
+            variables: {
+                id: state.id,
+                field: actionType,
+                data: inputData
+            }
+        })
+        dispatch({ type: actionType, payload: inputData })
+    }
 
     function handleSave() {
-        console.log('saving inputText')
+
+        navigation.navigate('ListDagRapport')
     }
 
     return (
         <View>
-            <Text>Heures</Text>
+            <Text>FieldA</Text>
             <TextInput
                 style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-                onChangeText={text => onChangeText(text)}
-                value={value}
-                placeholder="Entrez vos heures de travail"
+                name={actions.FIELDA_CHANGED}
+                onChangeText={text => handleChange(text, actions.FIELDA_CHANGED)}
+                value={state[actions.FIELDA_CHANGED]}
+                placeholder="Field A"
+            />
+            <Text>FieldB</Text>
+            <TextInput
+                name={actions.FIELDB_CHANGED}
+                style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+                onChangeText={text => handleChange(text, actions.FIELDB_CHANGED)}
+                value={state[actions.FIELDB_CHANGED]}
+                placeholder="Field B"
+            />
+            <Text>FieldC</Text>
+            <TextInput
+                name={actions.FIELDC_CHANGED}
+                style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+                onChangeText={text => handleChange(text, actions.FIELDC_CHANGED)}
+                value={state[actions.FIELDC_CHANGED]}
+                placeholder="Field C"
+            />
+            <Text>FieldD</Text>
+            <TextInput
+                name={actions.FIELDD_CHANGED}
+                style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+                onChangeText={text => handleChange(text, actions.FIELDD_CHANGED)}
+                value={state[actions.FIELDD_CHANGED]}
+                placeholder="Field D"
             />
             <Button title='Save' onPress={handleSave} />
         </View>

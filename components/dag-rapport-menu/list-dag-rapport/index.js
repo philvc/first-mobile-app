@@ -5,7 +5,7 @@ import { View, Text } from 'react-native';
 // components
 import DatePicker from './components/date-picker'
 import CreateDagRapport from './components/create-dag-rapport';
-import RecentDagRapport from './components/recent-dag-rapport';
+import VandaagDagRapport from './components/vandaag-dag-rapport';
 
 export default function ListDagRapport({ navigation }) {
 
@@ -13,9 +13,9 @@ export default function ListDagRapport({ navigation }) {
     return (
         <View>
             <Text>List Dag Rapport</Text>
-            <CreateDagRapport />
-            <DatePicker />
-            <RecentDagRapport />
+            <CreateDagRapport navigation={navigation} />
+            <DatePicker navigation={navigation} />
+            <VandaagDagRapport />
         </View>
     )
 }
