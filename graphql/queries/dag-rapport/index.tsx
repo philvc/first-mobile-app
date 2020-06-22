@@ -11,3 +11,12 @@ export const GET_DAG_RAPPORT_BY_DATE = gql`
     }
     ${DAG_RAPPORT_FRAGMENT}
 `
+
+export const GET_SELECTED_RAPPORT = gql`
+    query getSelectedRapport {
+        selectedRapport @client{
+            ...dagRapportData
+        }
+    }
+    ${DAG_RAPPORT_FRAGMENT}
+`

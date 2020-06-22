@@ -1,11 +1,13 @@
 // modules
 import * as React from 'react';
 import { Text, View } from 'react-native';
+import Header from '../../header';
 
-export default function CreateDagRapport() {
+export default function CreateDagRapport({ navigation }: any) {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Create Dag Rapport</Text>
+    <View style={{ flex: 1, backgroundColor: '#fff' }}>
+      <Header navigation={navigation} />
+      <Text>Create</Text>
     </View>
   )
 }

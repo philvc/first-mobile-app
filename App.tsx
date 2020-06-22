@@ -3,13 +3,15 @@ import { StyleSheet, Button, Text } from 'react-native';
 
 // modules
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { ApolloProvider, ApolloClient, HttpLink, InMemoryCache, NormalizedCacheObject, gql, split } from '@apollo/client';
 import { WebSocketLink } from '@apollo/link-ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 
 // component
 import DagRapportMenu from './components/dag-rapport-menu'
+import TaskMenu from './components/task-menu';
+import CostMenu from './components/cost-menu';
 
 // Graphql default state
 const cache = new InMemoryCache();
@@ -45,29 +47,20 @@ const client = new ApolloClient<NormalizedCacheObject>({
   connectToDevTools: true
 })
 
-const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
 
 export default function App() {
 
   return (
     <ApolloProvider client={client}>
       <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="DagRapportMenu"
-          screenOptions={({ navigation, route }) => ({
-            headerTitle: () => <Text>Find rapport</Text>,
-            headerRight: () => (
-              <Button
-                onPress={() => navigation.navigate('DagRapportMenu')}
-                title="Menu"
-                color="#000"
-              />
-            ),
-
-          })}
+        <Drawer.Navigator
+          initialRouteName="DagRapport"
         >
-          <Stack.Screen name="DagRapportMenu" component={DagRapportMenu} />
-        </Stack.Navigator>
+          <Drawer.Screen name="DagRapport" component={DagRapportMenu} />
+          <Drawer.Screen name="Costs" component={CostMenu} />
+          <Drawer.Screen name="Tasks" component={TaskMenu} />
+        </Drawer.Navigator>
       </NavigationContainer>
     </ApolloProvider>
   );

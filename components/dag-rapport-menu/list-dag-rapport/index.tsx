@@ -3,9 +3,8 @@ import * as React from 'react';
 import { View, Text } from 'react-native';
 
 // components
-import DatePicker from './components/date-picker'
-import CreateDagRapport from './components/create-dag-rapport';
-import VandaagDagRapport from './components/vandaag-dag-rapport';
+import DatePicker from '../dag-rapport-create/components/date-picker'
+import CreateDagRapport from '../dag-rapport-create/components/create-dag-rapport-button';
 
 export default function ListDagRapport({ navigation }: any) {
 
@@ -15,7 +14,6 @@ export default function ListDagRapport({ navigation }: any) {
             <Text>List Dag Rapport</Text>
             <CreateDagRapport navigation={navigation} />
             <DatePicker navigation={navigation} />
-            <VandaagDagRapport />
         </View>
     )
 }
