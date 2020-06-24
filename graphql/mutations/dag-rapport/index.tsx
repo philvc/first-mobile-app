@@ -4,8 +4,8 @@ import gql from 'graphql-tag';
 import { DAG_RAPPORT_FRAGMENT } from '../../fragments/dagRapport'
 
 export const CREATE_DAG_RAPPORT = gql`
-    mutation createDagRapport($fieldA: String, $fieldB: String, $fieldC: String, $fieldD: String){
-        createDagRapport(input: {fieldA: $fieldA, fieldB: $fieldB, fieldC: $fieldC, fieldD: $fieldD}){
+    mutation createDagRapport($date: String){
+        createDagRapport(input: {date: $date}){
             ...dagRapportData
         }
     }

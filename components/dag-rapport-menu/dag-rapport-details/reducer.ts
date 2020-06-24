@@ -1,5 +1,6 @@
 
 export const actions = {
+    QUERY_RESULT: 'queryResult',
     FIELDA_CHANGED: 'fieldA',
     FIELDB_CHANGED: 'fieldB',
     FIELDC_CHANGED: 'fieldC',
@@ -7,6 +8,7 @@ export const actions = {
 }
 
 export function reducer(state: any, action: any) {
+    console.log('reducer')
     switch (action.type) {
         case actions.FIELDA_CHANGED:
             return {
@@ -29,6 +31,11 @@ export function reducer(state: any, action: any) {
                 [actions.FIELDD_CHANGED]: action.payload
             };
 
+        case actions.QUERY_RESULT:
+            return {
+                ...state,
+                ...action.payload
+            }
         default:
             return state
     }

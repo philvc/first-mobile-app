@@ -1,11 +1,13 @@
 // modules
 import * as React from 'react';
-import { View, StyleSheet, Button } from 'react-native';
+import { View, StyleSheet, Button, Text, TouchableOpacity } from 'react-native';
 
 export default function Header({ navigation }: any) {
     return (
         <View style={styles.container}>
-            <Button title='Menu' onPress={navigation.openDrawer} />
+            <TouchableOpacity onPress={navigation.openDrawer}>
+                <Text style={styles.text}>Drawer menu</Text>
+            </TouchableOpacity>
         </View>
     )
 };
@@ -13,7 +15,10 @@ export default function Header({ navigation }: any) {
 const styles = StyleSheet.create({
     container: {
         height: '10%',
-        backgroundColor: '#fff',
         justifyContent: 'center',
+        alignItems: 'center',
     },
+    text: {
+        color: 'rgb(0, 122, 255)'
+    }
 });

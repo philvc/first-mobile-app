@@ -2,7 +2,7 @@
 // modules
 import * as React from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { View, Button, Text, SafeAreaView, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Button, Text, SafeAreaView, FlatList, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { useLazyQuery, useApolloClient } from '@apollo/client';
 import { format } from 'date-fns';
 import Constants from 'expo-constants';
@@ -10,6 +10,16 @@ import Constants from 'expo-constants';
 
 // graphql
 import { GET_DAG_RAPPORT_BY_DATE, GET_SELECTED_RAPPORT } from '../../../../../graphql/queries/dag-rapport'
+
+// interface
+interface Item {
+    id: string;
+    fieldA: string;
+    fieldB: string;
+    fieldC: string;
+    fieldD: string;
+    date: string;
+}
 
 export default function DatePicker({ navigation }: any) {
 
@@ -21,8 +31,10 @@ export default function DatePicker({ navigation }: any) {
     const [mode, setMode] = React.useState('date')
     const [date, setDate] = React.useState(new Date())
     const [formatDate, setFormatDate] = React.useState(format(new Date(), 'MMM-dd-yyyy'))
-    const [dagRapportList, setDagRapportList] = React.useState(null)
+    const [dagRapportList, setDagRapportList] = React.useState([])
+    const [hasNotFound, setHasNotFound] = React.useState(false)
 
+    console.log('dagRapportList', dagRapportList)
     // queries
     const [getDagRapportByDate, { loading, error, data }] = useLazyQuery(GET_DAG_RAPPORT_BY_DATE, {
         fetchPolicy: 'no-cache',
@@ -31,16 +43,21 @@ export default function DatePicker({ navigation }: any) {
     // effects
     React.useEffect(() => {
         if (data) {
-            setDagRapportList(data.dagRapportByDate)
+            console.log('useEffect')
+            setDagRapportList(data?.dagRapportByDate)
+            if (data?.dagRapportByDate.length === 0) {
+                setHasNotFound(prevValue => !prevValue)
+            }
         }
         if (error) {
             console.log('lazy query error', error)
         }
-    }, [data, error])
+    }, [data?.dagRapportByDate, error])
 
     //handlers
     function showTimePicker() {
         setShow(prevValue => !prevValue)
+        setHasNotFound(false)
     }
 
     function selectDate(event: any, selectDate: any) {
@@ -52,6 +69,7 @@ export default function DatePicker({ navigation }: any) {
     }
 
     function findDagRapport() {
+
         getDagRapportByDate({
             variables: {
                 date: formatDate
@@ -59,32 +77,11 @@ export default function DatePicker({ navigation }: any) {
         })
     }
 
-    const onSelect = React.useCallback((item) => {
-        console.log('item', item)
-        client.writeQuery({
-            query: GET_SELECTED_RAPPORT,
-            data: {
-                selectedRapport: item,
-            }
-        })
-        navigation.navigate('Read')
-    }, [])
-
-    // render functions
-    function Item({ date, onSelect }: any) {
-        return (
-            <View style={styles.item}>
-                <TouchableOpacity onPress={onSelect}>
-
-                    <Text style={styles.date}>Rapport of {date}</Text>
-                </TouchableOpacity>
-            </View>
-        )
-    }
-
     return (
         <View>
-            <Button title="Open date picker" onPress={showTimePicker} />
+            <TouchableOpacity style={styles.pickDateContainer} onPress={showTimePicker}>
+                <Text style={styles.pickDateText}>Pick a date</Text>
+            </TouchableOpacity>
             {show && (
                 <View>
                     <DateTimePicker
@@ -95,38 +92,60 @@ export default function DatePicker({ navigation }: any) {
                         display="default"
                         onChange={selectDate}
                     />
-                    <Button title="Find" onPress={findDagRapport} />
+                    <TouchableOpacity style={styles.pickDateContainer} onPress={findDagRapport} >
+                        <Text style={styles.pickDateText}>Find</Text>
+                    </TouchableOpacity>
                 </View>
             )}
-            {dagRapportList && dagRapportList !== null ? (
-                <SafeAreaView>
-                    <Text>Result</Text>
-                    <FlatList
-                        data={dagRapportList}
-                        renderItem={({ item }) => <Item date={item.date} onSelect={() => onSelect(item)} />}
-                        keyExtractor={item => item.id}
-                        ListEmptyComponent={() => <Text>No result</Text>}
-                    />
-                </SafeAreaView>
-            ) : (
-                    <Text>No rapport found</Text>
-                )}
+            {dagRapportList.length > 0 && dagRapportList.map((item: Item) =>
+                <ScrollView>
+                    <TouchableOpacity
+                        style={styles.dagRapportItem}
+                        onPress={() => {
+                            setShow(false)
+                            setDagRapportList([])
+                            navigation.navigate('Write', { rapport: item })
+                        }}
+                        key={item.id}>
+                        <Text style={styles.dagRapportDate}>Rapport {item.date}</Text>
+                    </TouchableOpacity>
+                </ScrollView>
+            )}
+            {hasNotFound && <Text style={styles.noRapportFound}>Oups, geen rapport gevonden...</Text>}
         </View>
     )
 }
 
 const styles = StyleSheet.create({
+    dagRapportItem: {
+        alignItems: 'center',
+        padding: 20,
+        width: '200',
+    },
+    dagRapportDate: {
+        color: 'rgb(0,122,255)',
+    },
     container: {
         flex: 1,
         marginTop: Constants.statusBarHeight,
     },
-    item: {
-        backgroundColor: '#f9c2ff',
-        padding: 20,
-        marginVertical: 8,
-        marginHorizontal: 16,
+    pickDateContainer: {
+        alignItems: 'center',
+        display: 'flex',
+        marginTop: 30,
+        marginBottom: 20,
     },
-    date: {
-        fontSize: 32,
+    pickDateText: {
+        backgroundColor: 'rgba(0, 122, 255, 0.12)',
+        color: 'rgb(0, 122, 255)',
+        padding: 15,
+        borderRadius: 8,
     },
+    noRapportFound: {
+        textAlign: 'center',
+        position: 'absolute',
+        top: 300,
+        width: '100%',
+        color: 'red',
+    }
 });

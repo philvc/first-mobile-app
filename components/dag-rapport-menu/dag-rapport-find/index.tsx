@@ -8,7 +8,6 @@ export default function FindDagRapport({ navigation }: any) {
     return (
         <View style={{ flex: 1, backgroundColor: '#fff' }}>
             <Header navigation={navigation} />
-            <Text>Find</Text>
             <DatePicker navigation={navigation} />
         </View>
     )
