@@ -7,11 +7,16 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { ApolloProvider, ApolloClient, HttpLink, InMemoryCache, NormalizedCacheObject, gql, split } from '@apollo/client';
 import { WebSocketLink } from '@apollo/link-ws';
 import { getMainDefinition } from '@apollo/client/utilities';
+import Constants from 'expo-constants';
 
 // component
 import DagRapportMenu from './components/dag-rapport-menu'
 import TaskMenu from './components/task-menu';
 import CostMenu from './components/cost-menu';
+
+// uri
+const { manifest } = Constants;
+console.log('manifest', manifest)
 
 // Graphql default state
 const cache = new InMemoryCache();
