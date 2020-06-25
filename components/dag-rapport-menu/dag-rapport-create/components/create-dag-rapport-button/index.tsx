@@ -13,7 +13,8 @@ export default function CreateDagRapportButton({ navigation }: any) {
     // mutations
     const [createDagRapport] = useMutation(CREATE_DAG_RAPPORT, {
         onCompleted({ createDagRapport }) {
-            navigation.navigate('Write', { item: createDagRapport })
+
+            navigation.navigate('Write', { rapport: createDagRapport })
         }
     })
 

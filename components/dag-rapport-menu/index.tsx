@@ -14,7 +14,7 @@ export default function DagRapportMenu() {
 
   return (
     <Tab.Navigator
-      initialRouteName="Find"
+      initialRouteName="Write"
       tabBarOptions={{
         labelStyle: { fontSize: 15 },
         tabStyle: { justifyContent: 'center' }
