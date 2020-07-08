@@ -9,8 +9,6 @@
     ],
     "packagerOpts": {
       "sourceExts": [
-        "ios",
-        "android",
         "js",
         "json",
         "ts",
